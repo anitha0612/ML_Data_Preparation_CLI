@@ -1,0 +1,75 @@
+from data_summary import DataSummary
+from input import Input
+from data_filling import DataFilling
+from data_download import DataDownload
+from categorical_encoding import CategoricalEncoding
+from scaling_features import ScalingFeatures
+
+class Preprocessor:
+
+    
+    # The Task associated with this class. This is also the main class of the project.
+    tasks = [
+        '1. Data Description',
+        '2. Handling NULL Values',
+        '3. Encoding Categorical Data',
+        '4. Feature Scaling of the Dataset',
+        '5. Download the modified dataset'
+    ]
+
+    data = 0
+    
+    def __init__(self):
+        self.data = Input().inputFunction()
+        print("\n\n" + "WELCOME TO THE MACHINE LEARNING PREPROCESSOR CLI!!!" + "\n\n")
+
+    
+    # main function of the Preprocessor class.
+    def preprocessorMain(self):
+        while(1):
+            print("\nTasks (Preprocessing)\n")
+            for task in self.tasks:
+                print(task)
+
+            while(1):
+                try:
+                    choice = int(input("\nWhat do you want to do? (Press -1 to exit):  "))
+                except ValueError:
+                    print("Integer Value required. Try again...")
+                    continue
+                break
+
+            if choice == -1:
+                exit()
+
+            # Which will move to the DataDescription class.
+            elif choice==1:
+                DataSummary(self.data).describe()
+
+
+            # Which will move to the Imputation class.
+            elif choice==2:
+                self.data = DataFilling(self.data).imputer()
+                
+
+            # Which will move to the Categorical class.
+            elif choice==3:
+                self.data = CategoricalEncoding(self.data).categoricalMain()
+
+
+            # Which will move to the FeatureScaling class.
+            elif choice==4:
+                self.data = ScalingFeatures(self.data).scaling()
+
+
+            # Which will move to the Download class.
+            elif choice==5:
+                DataDownload(self.data).download()
+            
+            else:
+                print("\nWrong Integer value!! Try again...")
+
+# obj is the object of our main class
+obj = Preprocessor()
+# the object 'obj' calls the main function
+obj.preprocessorMain()
